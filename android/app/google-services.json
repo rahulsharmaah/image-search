@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "399608882122",
+    "project_id": "image-search-cf544",
+    "storage_bucket": "image-search-cf544.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399608882122:android:a3248645329b95714e6533",
+        "android_client_info": {
+          "package_name": "com.example.image_search"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399608882122-0lfdkdf0e5hjenpupct35fqehooa8eln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABa7w3dY__PIFY0mBI6USFmuJlsRLg5Ck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399608882122-0lfdkdf0e5hjenpupct35fqehooa8eln.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "399608882122-5aapctkgs62etp3fif0cg01vb5q4lg60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rahulsapplication.app.testProject"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399608882122:android:50f81646bc1148344e6533",
+        "android_client_info": {
+          "package_name": "com.rahulsapplication.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399608882122-0lfdkdf0e5hjenpupct35fqehooa8eln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABa7w3dY__PIFY0mBI6USFmuJlsRLg5Ck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399608882122-0lfdkdf0e5hjenpupct35fqehooa8eln.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "399608882122-5aapctkgs62etp3fif0cg01vb5q4lg60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rahulsapplication.app.testProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
