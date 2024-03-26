@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ImageUploadScreen extends StatefulWidget {
   @override
@@ -34,6 +35,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
         }
         setState(() {
           _successMessage = 'Images uploaded successfully.';
+          Navigator.popAndPushNamed(context, '/welcome'); //
         });
       } else {
         setState(() {
@@ -99,12 +101,34 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   Future<String> uploadToFirebase(File file) async {
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference storageReference =
-        storage.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
-    UploadTask uploadTask = storageReference.putFile(file);
-    TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-    return downloadUrl;
+
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Retrieve the UID of the current user
+      String uid = user.uid;
+
+      // Create a storage reference with user-specific path
+      Reference storageReference = storage
+          .ref()
+          .child('user_images/$uid/${DateTime.now().millisecondsSinceEpoch}');
+
+      // Upload file to Firebase Storage
+      UploadTask uploadTask = storageReference.putFile(file);
+
+      // Wait for upload to complete
+      TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+
+      // Get the download URL of the uploaded file
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Return the download URL
+      return downloadUrl;
+    } else {
+      // Handle the case where no user is signed in
+      throw Exception('No user signed in.');
+    }
   }
 
   void _onSearchSimilarImagesPressed() async {
@@ -135,35 +159,36 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Upload'),
+        title: const Text('Image Upload'),
       ),
       body: Column(
         children: <Widget>[
           ElevatedButton(
             onPressed: _isLoading ? null : _uploadMultipleImages,
-            child: Text('Upload Multiple Images'),
+            child: const Text('Upload Multiple Images'),
           ),
           ElevatedButton(
             onPressed: _isLoading ? null : _onSearchSimilarImagesPressed,
-            child: Text('Search Similar Images'),
+            child: const Text('Search Similar Images'),
           ),
           if (_isLoading)
-            CircularProgressIndicator()
+            const CircularProgressIndicator()
           else if (_errorMessage.isNotEmpty)
             Text(
               _errorMessage,
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             )
           else if (_successMessage.isNotEmpty)
             Text(
               _successMessage,
-              style: TextStyle(color: Colors.green),
+              style: const TextStyle(color: Colors.green),
             ),
           Expanded(
             child: _uploadedImageUrls.isEmpty
-                ? Center(child: Text('No images uploaded yet'))
+                ? const Center(child: Text('No images uploaded yet'))
                 : GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 4.0,
                       mainAxisSpacing: 4.0,

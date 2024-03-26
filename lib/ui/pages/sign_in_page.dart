@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_search/services/auth_services.dart';
 import 'package:image_search/ui/pages/image_upload.dart';
 import 'package:image_search/ui/pages/welcome_screen.dart';
+
 class SignInPage extends StatelessWidget {
   final AuthService _authService = AuthService();
 
@@ -18,20 +19,29 @@ class SignInPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () async {
-                final User? user = await _authService.signInWithGoogle();
-                if (user != null) {
-                  // Navigate to welcome screen if sign-in is successful
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WelcomeScreen(user: user),
-                    ),
-                  );
-                } else {
-                  // Show error message if sign-in fails
+                try {
+                  final User? user = await _authService.signInWithGoogle();
+                  if (user != null) {
+                    // Navigate to welcome screen if sign-in is successful
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomeScreen(user: user),
+                      ),
+                    );
+                  } else {
+                    // Show error message if sign-in fails
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Sign-in failed. Please try again.'),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  // Show error message if sign-in encounters an error
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Sign-in failed. Please try again.'),
+                      content: Text('Error: $e'),
                     ),
                   );
                 }
